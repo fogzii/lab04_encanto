@@ -85,9 +85,9 @@ cloned lab.
         <code>createSong</code>
         <br/><br/>
         Given a name and either a string or array of strings denoting the singers, create and return a Song.
-        <br/><br/><b>Difficulty</b>: ⭐
         <br/><br/>
         You are guaranteed that if singers is an array of strings, it will contain at least 2 strings.
+        <br/><br/><b>Difficulty</b>: ⭐
     </td>
     <td>
 <pre>(
