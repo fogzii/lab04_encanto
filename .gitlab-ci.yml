@@ -10,4 +10,4 @@ stages:
 testing:
   stage: checks
   script:
-    - echo "Please modify your .gitlab-ci.yml file to run test on your code!"
+    - npm run test

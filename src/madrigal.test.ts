@@ -11,12 +11,6 @@ import {
   getMostSpecialMadrigal,
 } from './madrigal';
 
-test('Remove this test and uncomment the other tests below', () => {
-  expect(1 + 1).toEqual(2);
-});
-
-/*
-
 describe('createMadrigal', () => {
   test('no gift', () => {
     expect(createMadrigal('Mirabel', 15)).toStrictEqual({ name: 'Mirabel', age: 15 });
@@ -267,4 +261,3 @@ describe('Encanto tests', () => {
   });
 });
 
-*/

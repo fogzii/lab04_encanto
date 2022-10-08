@@ -6,62 +6,105 @@
  */
 
 export interface Madrigal {
-  // TODO: add type annotations
-  name: any;
-  age: any;
-  gift?: any;
+  name: string;
+  age: number;
+  gift?: string;
 }
 
 export interface Song {
-  // TODO: add type annotations
-  name: any;
-  singers: any;
+  name: string;
+  singers: string | string[];
 }
 
-// TODO: remove 'any' and add type annotations
-export function createMadrigal(name: any, age: any, gift? : any): any {
-  // TODO: implementation
-  return null;
+export function createMadrigal(name: string, age: number, gift? : string): Madrigal {
+  const madrigal: Madrigal = {
+    name: name,
+    age: age,
+  };
+
+  if (gift != undefined) {
+    madrigal.gift = gift;
+  }
+
+  return madrigal;
 }
 
-// TODO: remove 'any' and add type annotations
-export function createSong(name: any, singers: any): any {
-  // TODO: implementation
-  return null;
+export function createSong(name: string, singers: string | string[]): Song {
+  const song: Song = {
+    name: name,
+    singers: singers,
+  }
+  return song;
 }
 
-// TODO: add type annotations
-export function extractNamesMixed(array) {
-  // TODO: implementation
-  return ['string', 'array'];
+export function extractNamesMixed(array: (Madrigal | Song)[]): string[] {
+  const names: string[] = [];
+  for (const object of array) {
+    names.push(object.name);
+  }
+
+  return names;
 }
 
-// TODO: add type annotations
-export function extractNamesPure(array) {
-  // TODO: implementation
-  return ['string', 'array'];
+export function extractNamesPure(array: Madrigal[] | Song[]): string[] {
+  const names: string[] = [];
+  for (const object of array) {
+    names.push(object.name);
+  }
+
+  return names;
 }
 
-// TODO: add type annotations
-export function madrigalIsSinger(madrigal, song) {
-  // TODO: implementation
-  return false;
+export function madrigalIsSinger(madrigal: Madrigal, song: Song): boolean {
+  return song.singers.includes(madrigal.name) ? true: false;
 }
 
-// TODO: add type annotations
-export function sortedMadrigals(madrigals) {
-  // TODO: implementation
-  return [];
+export function sortedMadrigals(madrigals: Madrigal[]): Madrigal[] {
+  const sortedArr: Madrigal[] = madrigals.slice();
+
+  sortedArr.sort((a, b) => {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+  });
+
+  sortedArr.sort((a, b) => a.age - b.age);
+  return sortedArr;
 }
 
-// TODO: add type annotations
-export function filterSongsWithMadrigals(madrigals, songs) {
-  // TODO: implementation
-  return [];
+export function filterSongsWithMadrigals(madrigals: Madrigal[], songs: Song[]): Song[] {
+  const arr: Song[] = [];
+  for (const song of songs) {
+    for (const madrigal of madrigals) {
+      if (madrigalIsSinger(madrigal, song)) {
+        arr.push(song);
+        break;
+      }
+    }
+  }
+  return arr;
 }
 
-// TODO: add type annotations
-export function getMostSpecialMadrigal(madrigals, songs) {
-  // TODO: implementation
-  return { name: 'stub code', age: 999, gift: 'potates' };
+export function getMostSpecialMadrigal(madrigals: Madrigal[], songs: Song[]): Madrigal {
+  let specialMadrigal: Madrigal = madrigals[0];
+  let maxNumSongs: number = 0;
+
+  for (const madrigal of madrigals) {
+    let numSongs: number = 0;
+    for (const song of songs) {
+      if (madrigalIsSinger(madrigal, song)) {
+        numSongs++;
+      }
+    }
+    if (numSongs > maxNumSongs) {
+      maxNumSongs = numSongs;
+      specialMadrigal = madrigal;
+    }
+  }
+  return specialMadrigal;
 }
