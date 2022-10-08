@@ -10,4 +10,5 @@ stages:
 testing:
   stage: checks
   script:
+    - npm install
     - npm run test
