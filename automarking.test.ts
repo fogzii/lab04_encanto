@@ -9,7 +9,7 @@ import {
   sortedMadrigals,
   filterSongsWithMadrigals,
   getMostSpecialMadrigal,
-} from './src//madrigal';
+} from './src/madrigal';
 
 describe('createMadrigal', () => {
   test('no gift', () => {
