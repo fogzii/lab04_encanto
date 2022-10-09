@@ -1,3 +1,7 @@
+/*
+@see madrigal.alternative.js for a more javascripty solution :)
+*/
+
 export interface Madrigal {
   name: string;
   age: number;
@@ -10,22 +14,22 @@ export interface Song {
 }
 
 export function createMadrigal(name: string, age: number, gift?: string): Madrigal {
-  return {
-    name,
-    age,
-    ...(gift !== undefined && { gift })
-  };
+  if (gift === undefined) {
+    return { name, age };
+  }
+  return { name, age, gift };
 }
 
 export function createSong(name: string, singers: string | string[]): Song {
-  return {
-    name,
-    singers,
-  };
+  return { name, singers };
 }
 
-export function extractNamesMixed(array: (Madrigal | Song)[]) {
-  return array.map((i: Madrigal | Song) => i.name);
+export function extractNamesMixed(array: (Madrigal | Song)[]): string[] {
+  const names: string[] = [];
+  for (const madrigalOrSong of array) {
+    names.push(madrigalOrSong.name);
+  }
+  return names;
 }
 
 export function extractNamesPure(array: Madrigal[] | Song[]) {
@@ -33,9 +37,9 @@ export function extractNamesPure(array: Madrigal[] | Song[]) {
 }
 
 export function madrigalIsSinger(madrigal: Madrigal, song: Song) {
-  /**
-   * This only works because of the Madrigal Property of no substring
-   */
+  if (typeof song.singers === 'string') {
+    return song.singers === madrigal.name;
+  }
   return song.singers.includes(madrigal.name);
 }
 
@@ -49,36 +53,33 @@ export function sortedMadrigals(madrigals: Madrigal[]) {
 }
 
 export function filterSongsWithMadrigals(madrigals: Madrigal[], songs: Song[]) {
-  return songs.filter(s => madrigals.some(m => madrigalIsSinger(m, s)));
+  const filteredSongs: Song[] = [];
+  for (const song of songs) {
+    for (const madrigal of madrigals) {
+      if (madrigalIsSinger(madrigal, song)) {
+        filteredSongs.push(song);
+        break;
+      }
+    }
+  }
+  return filteredSongs;
 }
-
-export function getMostSpecialMadrigal(madrigals: Madrigal[], songs: Song[]) {
-  return madrigals.reduce((m1, m2) => {
-    const m1Songs = songs.filter(s => madrigalIsSinger(m1, s)).length;
-    const m2Songs = songs.filter(s => madrigalIsSinger(m2, s)).length;
-    return m1Songs >= m2Songs ? m1 : m2;
-  });
-}
-
-/*
-// Alternative solution for "getMostSpecialMadrigal"
 
 export function getMostSpecialMadrigal(madrigals: Madrigal[], songs: Song[]) {
   // Guaranteed that list will have at least 1 element
   let mostSpecialMadrigal: Madrigal = madrigals[0];
-  let maxSongs = -1;
-  for (const m of madrigals) {
+  let maxSongs = -Infinity;
+  for (const madrigal of madrigals) {
     let songCount = 0;
-    for (const s of songs) {
-      if (madrigalIsSinger(m, s)) {
+    for (const song of songs) {
+      if (madrigalIsSinger(madrigal, song)) {
         songCount++;
       }
     }
     if (maxSongs < songCount) {
       maxSongs = songCount;
-      mostSpecialMadrigal = m;
+      mostSpecialMadrigal = madrigal;
     }
   }
   return mostSpecialMadrigal;
 }
-*/
