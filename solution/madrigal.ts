@@ -32,18 +32,18 @@ export function extractNamesMixed(array: (Madrigal | Song)[]): string[] {
   return names;
 }
 
-export function extractNamesPure(array: Madrigal[] | Song[]) {
+export function extractNamesPure(array: Madrigal[] | Song[]): string[] {
   return extractNamesMixed(array);
 }
 
-export function madrigalIsSinger(madrigal: Madrigal, song: Song) {
+export function madrigalIsSinger(madrigal: Madrigal, song: Song): boolean {
   if (typeof song.singers === 'string') {
     return song.singers === madrigal.name;
   }
   return song.singers.includes(madrigal.name);
 }
 
-export function sortedMadrigals(madrigals: Madrigal[]) {
+export function sortedMadrigals(madrigals: Madrigal[]): Madrigal[] {
   return [...madrigals].sort((m1, m2) => {
     if (m1.age !== m2.age) {
       return m1.age - m2.age;
@@ -52,7 +52,7 @@ export function sortedMadrigals(madrigals: Madrigal[]) {
   });
 }
 
-export function filterSongsWithMadrigals(madrigals: Madrigal[], songs: Song[]) {
+export function filterSongsWithMadrigals(madrigals: Madrigal[], songs: Song[]): Song[] {
   const filteredSongs: Song[] = [];
   for (const song of songs) {
     for (const madrigal of madrigals) {
@@ -65,7 +65,7 @@ export function filterSongsWithMadrigals(madrigals: Madrigal[], songs: Song[]) {
   return filteredSongs;
 }
 
-export function getMostSpecialMadrigal(madrigals: Madrigal[], songs: Song[]) {
+export function getMostSpecialMadrigal(madrigals: Madrigal[], songs: Song[]): Madrigal {
   // Guaranteed that list will have at least 1 element
   let mostSpecialMadrigal: Madrigal = madrigals[0];
   let maxSongs = -Infinity;
